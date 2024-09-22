@@ -5,22 +5,57 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Member } from '../../models/Member';
 import { MemberService } from '../../services/member.service';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-member',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './member.component.html',
   styleUrls: ['./member.component.css'],
 })
 export class MemberComponent implements OnInit {
-  constructor(private MS: MemberService) {}
+  constructor(private memberService: MemberService) {}
+
   dataSource: Member[] = [];
+
   ngOnInit() {
-    this.MS.getAllMembers().subscribe((data) => {
-      this.dataSource = data;
+    this.loadMembers();
+  }
+
+  loadMembers() {
+    this.memberService.getAllMembers().subscribe({
+      next: (data) => {
+        this.dataSource = data;
+      },
+      error: (error) => {
+        console.error('Error fetching members:', error);
+      },
     });
   }
+
+  openAddMemberDialog() {
+    console.log('Add member button clicked');
+  }
+
+  deleteMember(id: string) {
+    this.memberService.deleteMember(id).subscribe({
+      next: () => {
+        this.dataSource = this.dataSource.filter((member) => member.id !== id);
+        console.log('Member deleted successfully');
+      },
+      error: (error) => {
+        console.error('Error deleting member:', error);
+      },
+    });
+  }
+
   columnsToDisplay: string[] = [
     'id',
     'cin',

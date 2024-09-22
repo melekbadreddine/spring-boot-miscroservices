@@ -12,4 +12,8 @@ export class MemberService {
   getAllMembers(): Observable<Member[]> {
     return this.http.get<Member[]>('http://localhost:3000/members');
   }
+
+  deleteMember(id: string): Observable<void> {
+    return this.http.delete<void>(`http://localhost:3000/members/${id}`);
+  }
 }

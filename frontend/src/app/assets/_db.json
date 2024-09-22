@@ -39,14 +39,6 @@
       "type": "student",
       "cv": "lien",
       "createdDate": "123456"
-    },
-    {
-      "id": "6",
-      "cin": "123461",
-      "name": "melek",
-      "type": "student",
-      "cv": "lien",
-      "createdDate": "123456"
     }
   ]
 }
