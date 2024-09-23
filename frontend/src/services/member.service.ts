@@ -13,6 +13,10 @@ export class MemberService {
     return this.http.get<Member[]>('http://localhost:3000/members');
   }
 
+  addMember(m: Member): Observable<void> {
+    return this.http.post<void>('http://localhost:3000/create', m);
+  }
+
   deleteMember(id: string): Observable<void> {
     return this.http.delete<void>(`http://localhost:3000/members/${id}`);
   }
