@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Member } from '../../models/Member';
 import { MemberService } from '../../services/member.service';
 import { MatCardModule } from '@angular/material/card';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-member',
@@ -16,6 +17,7 @@ import { MatCardModule } from '@angular/material/card';
     MatTableModule,
     MatButtonModule,
     MatIconModule,
+    RouterLink,
   ],
   templateUrl: './member.component.html',
   styleUrls: ['./member.component.css'],

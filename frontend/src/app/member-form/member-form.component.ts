@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -14,22 +13,20 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-member-form',
   standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
+  imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule],
   templateUrl: './member-form.component.html',
-  styleUrl: './member-form.component.css',
+  styleUrls: ['./member-form.component.css'],
 })
 export class MemberFormComponent implements OnInit {
-  constructor(private memberService: MemberService, private router: Router) {}
-  ngOnInit(): void {
-    this.initform();
-  }
   form!: FormGroup;
-  initform(): void {
+
+  constructor(private memberService: MemberService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.initForm();
+  }
+
+  initForm(): void {
     this.form = new FormGroup({
       cin: new FormControl(null, [Validators.required]),
       name: new FormControl(null, [Validators.required]),
@@ -37,11 +34,21 @@ export class MemberFormComponent implements OnInit {
       cv: new FormControl(null, [Validators.required]),
     });
   }
+
   sub(): void {
-    console.log(this.form.value);
-    const x = { ...this.form.value, createdDate: new Date().toISOString() };
-    this.memberService.addMember(x).subscribe(() => {
-      this.router.navigate(['']);
+    console.log('Form submitted', this.form.value);
+    const newMember = {
+      ...this.form.value,
+      createdDate: new Date().toISOString(),
+    };
+    this.memberService.addMember(newMember).subscribe({
+      next: (response) => {
+        console.log('Member added successfully', response);
+        this.router.navigate(['']);
+      },
+      error: (error) => {
+        console.error('Error adding member:', error);
+      },
     });
   }
 }
