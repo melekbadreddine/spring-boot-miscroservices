@@ -7,6 +7,8 @@ import { Member } from '../../models/Member';
 import { MemberService } from '../../services/member.service';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-member',
@@ -23,7 +25,10 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./member.component.css'],
 })
 export class MemberComponent implements OnInit {
-  constructor(private memberService: MemberService) {}
+  constructor(
+    private memberService: MemberService,
+    private dialog: MatDialog
+  ) {}
 
   dataSource: Member[] = [];
 
@@ -36,24 +41,33 @@ export class MemberComponent implements OnInit {
       next: (data) => {
         this.dataSource = data;
       },
-      error: (error) => {
-        console.error('Error fetching members:', error);
-      },
     });
   }
 
-  openAddMemberDialog() {
-    console.log('Add member button clicked');
+  deleteMember(id: string) {
+    let dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      height: '200px',
+      width: '300px',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.memberService.deleteMember(id).subscribe({
+          next: () => {
+            this.dataSource = this.dataSource.filter(
+              (member) => member.id !== id
+            );
+            console.log('Member deleted successfully');
+          },
+        });
+      }
+    });
   }
 
-  deleteMember(id: string) {
+  editMember(id: string) {
     this.memberService.deleteMember(id).subscribe({
       next: () => {
         this.dataSource = this.dataSource.filter((member) => member.id !== id);
         console.log('Member deleted successfully');
-      },
-      error: (error) => {
-        console.error('Error deleting member:', error);
       },
     });
   }

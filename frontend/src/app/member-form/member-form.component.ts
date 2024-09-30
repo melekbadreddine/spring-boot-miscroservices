@@ -8,7 +8,8 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MemberService } from '../../services/member.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Member } from '../../models/Member';
 
 @Component({
   selector: 'app-member-form',
@@ -20,35 +21,61 @@ import { Router } from '@angular/router';
 export class MemberFormComponent implements OnInit {
   form!: FormGroup;
 
-  constructor(private memberService: MemberService, private router: Router) {}
+  constructor(
+    private memberService: MemberService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
   }
 
   initForm(): void {
-    this.form = new FormGroup({
-      cin: new FormControl(null, [Validators.required]),
-      name: new FormControl(null, [Validators.required]),
-      type: new FormControl(null, [Validators.required]),
-      cv: new FormControl(null, [Validators.required]),
-    });
+    const idcourant = this.activatedRoute.snapshot.params['id'];
+    if (!!idcourant) {
+      this.memberService.getMember(idcourant).subscribe({
+        next: (member) => {
+          this.form = new FormGroup({
+            cin: new FormControl(member.cin, [Validators.required]),
+            name: new FormControl(member.name, [Validators.required]),
+            type: new FormControl(member.type, [Validators.required]),
+            cv: new FormControl(member.cv, [Validators.required]),
+          });
+        },
+        error: (error) => {
+          console.error('Error fetching member:', error);
+        },
+      });
+    } else {
+      this.form = new FormGroup({
+        cin: new FormControl(null, [Validators.required]),
+        name: new FormControl(null, [Validators.required]),
+        type: new FormControl(null, [Validators.required]),
+        cv: new FormControl(null, [Validators.required]),
+      });
+    }
   }
 
   sub(): void {
-    console.log('Form submitted', this.form.value);
-    const newMember = {
-      ...this.form.value,
-      createdDate: new Date().toISOString(),
-    };
-    this.memberService.addMember(newMember).subscribe({
-      next: (response) => {
-        console.log('Member added successfully', response);
+    const idCourant = this.activatedRoute.snapshot.params['id'];
+    if (!!idCourant) {
+      // je suis dans update
+      const m: Member = this.form.value;
+      const data = { ...this.form.value, createDate: new Date().toISOString() };
+      this.memberService.updateMember(idCourant, data).subscribe(() => {
         this.router.navigate(['']);
-      },
-      error: (error) => {
-        console.error('Error adding member:', error);
-      },
-    });
+      });
+    } else if (this.form.valid) {
+      const formData = {
+        ...this.form.value,
+        createDate: new Date().toISOString(),
+      };
+      console.log('Form Data:', formData);
+      //appeler la fonction du service
+      this.memberService.addMember(formData).subscribe(() => {
+        this.router.navigate(['']);
+      });
+    }
   }
 }

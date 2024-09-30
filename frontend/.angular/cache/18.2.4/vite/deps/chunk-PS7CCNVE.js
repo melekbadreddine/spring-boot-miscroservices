@@ -3384,10 +3384,40 @@ function take(count2) {
   });
 }
 
+// node_modules/rxjs/dist/esm5/internal/operators/ignoreElements.js
+function ignoreElements() {
+  return operate(function(source, subscriber) {
+    source.subscribe(createOperatorSubscriber(subscriber, noop));
+  });
+}
+
 // node_modules/rxjs/dist/esm5/internal/operators/mapTo.js
 function mapTo(value) {
   return map(function() {
     return value;
+  });
+}
+
+// node_modules/rxjs/dist/esm5/internal/operators/delayWhen.js
+function delayWhen(delayDurationSelector, subscriptionDelay) {
+  if (subscriptionDelay) {
+    return function(source) {
+      return concat(subscriptionDelay.pipe(take(1), ignoreElements()), source.pipe(delayWhen(delayDurationSelector)));
+    };
+  }
+  return mergeMap(function(value, index) {
+    return innerFrom(delayDurationSelector(value, index)).pipe(take(1), mapTo(value));
+  });
+}
+
+// node_modules/rxjs/dist/esm5/internal/operators/delay.js
+function delay(due, scheduler) {
+  if (scheduler === void 0) {
+    scheduler = asyncScheduler;
+  }
+  var duration = timer(due, scheduler);
+  return delayWhen(function() {
+    return duration;
   });
 }
 
@@ -3679,6 +3709,21 @@ function takeUntil(notifier) {
       return subscriber.complete();
     }, noop));
     !subscriber.closed && source.subscribe(subscriber);
+  });
+}
+
+// node_modules/rxjs/dist/esm5/internal/operators/takeWhile.js
+function takeWhile(predicate, inclusive) {
+  if (inclusive === void 0) {
+    inclusive = false;
+  }
+  return operate(function(source, subscriber) {
+    var index = 0;
+    source.subscribe(createOperatorSubscriber(subscriber, function(value) {
+      var result = predicate(value, index++);
+      (result || inclusive) && subscriber.next(value);
+      !result && subscriber.complete();
+    }));
   });
 }
 
@@ -27405,6 +27450,7 @@ export {
   defaultIfEmpty,
   take,
   mapTo,
+  delay,
   distinctUntilChanged,
   finalize,
   first,
@@ -27418,6 +27464,7 @@ export {
   startWith,
   switchMap,
   takeUntil,
+  takeWhile,
   tap,
   XSS_SECURITY_URL,
   RuntimeError,
@@ -27933,4 +27980,4 @@ export {
    * found in the LICENSE file at https://angular.io/license
    *)
 */
-//# sourceMappingURL=chunk-3NIGF6G3.js.map
+//# sourceMappingURL=chunk-PS7CCNVE.js.map

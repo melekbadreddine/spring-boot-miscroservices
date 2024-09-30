@@ -15,30 +15,6 @@
       "type": "student",
       "cv": "lien",
       "createdDate": "123456"
-    },
-    {
-      "id": "3",
-      "cin": "123458",
-      "name": "melek",
-      "type": "student",
-      "cv": "lien",
-      "createdDate": "123456"
-    },
-    {
-      "id": "4",
-      "cin": "123459",
-      "name": "melek",
-      "type": "student",
-      "cv": "lien",
-      "createdDate": "123456"
-    },
-    {
-      "id": "5",
-      "cin": "123460",
-      "name": "melek",
-      "type": "student",
-      "cv": "lien",
-      "createdDate": "123456"
     }
   ]
 }
