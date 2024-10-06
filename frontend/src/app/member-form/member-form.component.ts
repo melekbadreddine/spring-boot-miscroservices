@@ -62,14 +62,14 @@ export class MemberFormComponent implements OnInit {
     if (!!idCourant) {
       // je suis dans update
       const m: Member = this.form.value;
-      const data = { ...this.form.value, createDate: new Date().toISOString() };
+      const data = { ...this.form.value, createdDate: new Date().toISOString() };
       this.memberService.updateMember(idCourant, data).subscribe(() => {
         this.router.navigate(['']);
       });
     } else if (this.form.valid) {
       const formData = {
         ...this.form.value,
-        createDate: new Date().toISOString(),
+        createdDate: new Date().toISOString(),
       };
       console.log('Form Data:', formData);
       //appeler la fonction du service
