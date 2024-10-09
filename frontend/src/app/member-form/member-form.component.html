@@ -1,24 +1,22 @@
-<div class="form-container">
-  <h2>Add Member</h2>
-  <form [formGroup]="form" (ngSubmit)="sub()">
+<form [formGroup]="form" (ngSubmit)="sub()" style="margin-top: 50px;">
+
     <mat-form-field appearance="fill">
-      <mat-label>CIN</mat-label>
-      <input matInput placeholder="cin" formControlName="cin" />
+        <input matInput placeholder="cin" formControlName="cin">
     </mat-form-field>
+
+    <br>
     <mat-form-field appearance="fill">
-      <mat-label>Name</mat-label>
-      <input matInput placeholder="name" formControlName="name" />
+        <input matInput placeholder="name" formControlName="name">
     </mat-form-field>
+    <br>
     <mat-form-field appearance="fill">
-      <mat-label>Type</mat-label>
-      <input matInput placeholder="type" formControlName="type" />
+        <input matInput placeholder="cv" formControlName="cv">
     </mat-form-field>
+    <br>
     <mat-form-field appearance="fill">
-      <mat-label>CV</mat-label>
-      <input matInput placeholder="cv" formControlName="cv" />
+        <input matInput placeholder="type" formControlName="type">
     </mat-form-field>
-    <button type="submit" [disabled]="form.invalid" class="submit-button">
-      Submit
-    </button>
-  </form>
-</div>
+    <br>
+
+    <button type="submit">submit</button>
+</form>

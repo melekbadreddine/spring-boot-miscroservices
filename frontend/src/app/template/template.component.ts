@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { RouterModule } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/services/AuthService';
 
 @Component({
   selector: 'app-template',
-  standalone: true,
-  imports: [MatSidenavModule, MatToolbarModule, MatListModule, MatIconModule, MatMenuModule, RouterModule],
   templateUrl: './template.component.html',
-  styleUrl: './template.component.css',
+  styleUrls: ['./template.component.css'],
 })
-export class TemplateComponent {}
+export class TemplateComponent {
+  constructor(private auth: AuthService, private router: Router) {}
+  logOut(): void {
+    this.auth.doLogout().then(() => {
+      this.router.navigate(['']);
+    });
+  }
+}

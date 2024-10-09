@@ -1,68 +1,63 @@
-<div class="members-container">
-  <div class="header">
-    <h2>Members List</h2>
-    <button mat-mini-fab color="primary" routerLink="/create">
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-  <div class="table-container">
-    <table mat-table [dataSource]="dataSource">
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>Id</th>
-        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-      </ng-container>
-      <ng-container matColumnDef="cin">
-        <th mat-header-cell *matHeaderCellDef>CIN</th>
-        <td mat-cell *matCellDef="let element">{{ element.cin }}</td>
-      </ng-container>
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-      </ng-container>
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef>Type</th>
-        <td mat-cell *matCellDef="let element">{{ element.type }}</td>
-      </ng-container>
-      <ng-container matColumnDef="cv">
-        <th mat-header-cell *matHeaderCellDef>CV</th>
-        <td mat-cell *matCellDef="let element">
-          <a
-            mat-icon-button
-            color="primary"
-            [href]="element.cv"
-            target="_blank"
-          >
-            <mat-icon>picture_as_pdf</mat-icon>
-          </a>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="createdDate">
-        <th mat-header-cell *matHeaderCellDef>Created Date</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.createdDate | date : "short" }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let element">
-          <button
-            mat-icon-button
-            color="primary"
-            routerLink="/{{ element.id }}/edit"
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button
-            mat-icon-button
-            color="warn"
-            (click)="deleteMember(element.id)"
-          >
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
-    </table>
-  </div>
+<div fxLayout="row" fxLayoutAlign="end center">
+  <button mat-raised-button color="primary" routerLink="/create">
+    <mat-icon>add</mat-icon>
+    Create New
+  </button>
 </div>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!-- ID Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+  </ng-container>
+
+  <!-- CIN Column -->
+  <ng-container matColumnDef="cin">
+    <th mat-header-cell *matHeaderCellDef>CIN</th>
+    <td mat-cell *matCellDef="let element">{{ element.cin }}</td>
+  </ng-container>
+
+  <!-- NAME Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+
+  <!-- TYPE Column -->
+  <ng-container matColumnDef="type">
+    <th mat-header-cell *matHeaderCellDef>Type</th>
+    <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+  </ng-container>
+
+  <!-- CV Column -->
+  <ng-container matColumnDef="cv">
+    <th mat-header-cell *matHeaderCellDef>CV</th>
+    <td mat-cell *matCellDef="let element">
+      <a href="{{ element.cv }}"><mat-icon>picture_as_pdf</mat-icon></a>
+    </td>
+  </ng-container>
+
+  <!-- Created Date Column -->
+  <ng-container matColumnDef="createdDate">
+    <th mat-header-cell *matHeaderCellDef>Created Date</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.createdDate | date : "short" }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="icons">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button routerLink="/{{ element.id }}/edit">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="delete(element.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <!-- Header and Row declarations -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

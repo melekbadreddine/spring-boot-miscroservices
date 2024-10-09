@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
+import { firebaseConfig } from './environment';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import {
   AngularFireAnalyticsModule,
@@ -8,7 +9,6 @@ import {
   ScreenTrackingService,
   UserTrackingService,
 } from '@angular/fire/compat/analytics';
-import { firebaseConfig } from './environment';
 
 @NgModule({
   imports: [
