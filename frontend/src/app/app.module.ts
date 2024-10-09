@@ -29,6 +29,8 @@ import { FirebaseModule } from './Firebase.module';
 import { LoginComponent } from './login/login.component';
 import { MatCardModule } from '@angular/material/card';
 import { ModalComponent } from './modal/modal.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,6 +65,8 @@ import { ModalComponent } from './modal/modal.component';
     HttpClientModule,
     FlexLayoutModule,
     MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

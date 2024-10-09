@@ -3,6 +3,7 @@ import { Evt } from 'src/models/Event';
 import { EventService } from 'src/services/event.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-event',
@@ -29,6 +30,9 @@ export class EventComponent implements OnInit {
     });
   }
 
+  open(): void {
+    this.dialog.open(ModalComponent);
+  }
   delete(id: string): void {
     //lancer la boite
     let dialogRef = this.dialog.open(ConfirmDialogComponent, {
