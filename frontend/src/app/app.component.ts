@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { TemplateComponent } from './template/template.component';
+import { FirebaseModule } from './Firebase.module';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +11,11 @@ import { TemplateComponent } from './template/template.component';
   imports: [
     RouterOutlet,
     RouterLink,
+    RouterModule,
     MatToolbarModule,
     MatButtonModule,
     TemplateComponent,
+    FirebaseModule,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
