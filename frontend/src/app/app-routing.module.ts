@@ -9,23 +9,15 @@ import { ArticleComponent } from './article/article.component';
 import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  {
-    path: 'create',
-    pathMatch: 'full',
-    component: MemberFormComponent,
-  },
-  { path: '', pathMatch: 'full', component: LoginComponent },
-  { path: 'create', pathMatch: 'full', component: MemberComponent },
-  { path: ':id/edit', pathMatch: 'full', component: MemberFormComponent },
-  { path: 'dashboard', pathMatch: 'full', component: DashboardComponent },
-  { path: 'tools', pathMatch: 'full', component: ToolsComponent },
-  { path: 'event', pathMatch: 'full', component: EventComponent },
-  { path: 'article', pathMatch: 'full', component: ArticleComponent },
-  {
-    path: '**',
-    pathMatch: 'full',
-    component: MemberComponent,
-  },
+  { path: '', component: LoginComponent, pathMatch: 'full' },
+  { path: 'member', component: MemberComponent, pathMatch: 'full' },
+  { path: 'create', component: MemberFormComponent, pathMatch: 'full' },
+  { path: ':id/edit', component: MemberFormComponent, pathMatch: 'full' },
+  { path: 'dashboard', component: DashboardComponent, pathMatch: 'full' },
+  { path: 'tools', component: ToolsComponent, pathMatch: 'full' },
+  { path: 'event', component: EventComponent, pathMatch: 'full' },
+  { path: 'article', component: ArticleComponent, pathMatch: 'full' },
+  { path: '**', component: LoginComponent, pathMatch: 'full' },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
